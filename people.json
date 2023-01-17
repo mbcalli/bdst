@@ -1,0 +1,46 @@
+{
+    "people": [
+        {
+            "id": 1,
+            "name": "matt",
+            "research-focus": "data science",
+            "hobbies": [
+                "biking",
+                "hiking",
+                "coding"
+            ],
+            "spirit-animal": {
+                "animal-type": "eagle",
+                "special-power": "invisibility",
+                "favorite-food": "chipotle"
+            }
+        },
+        {
+            "id": 2,
+            "name": "victoria",
+            "research-focus": "medicine",
+            "hobbies": [
+                "reading",
+                "baking"
+            ],
+            "spirit-animal": {
+                "animal-type": "bee",
+                "special-power": "infinite speed",
+                "favorite-food": "tacos"
+            }
+        },
+        {
+            "id": 3,
+            "name": "marc",
+            "research-focus": "computer science",
+            "hobbies": [
+                "rock climbing"
+            ],
+            "spirit-animal": {
+                "animal-type": "ant eater",
+                "special-power": "super strength",
+                "favorite-food": "rice"
+            }
+        }
+    ]
+}
