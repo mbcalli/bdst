@@ -55,6 +55,28 @@
                 "special-power": "talking",
                 "favorite-food": "trash"
             }
+        },
+        {
+            "id": 10,
+            "name": "test",
+            "research_focus": "test",
+            "hobbies": [
+                "none"
+            ],
+            "spirit_animal": {}
+        },
+        {
+            "id": 101,
+            "name": "test2",
+            "research_focus": "test2",
+            "hobbies": [
+                "none"
+            ],
+            "spirit_animal": {
+                "animal-type": "test",
+                "special-power": "test",
+                "favorite-food": "test"
+            }
         }
     ]
 }

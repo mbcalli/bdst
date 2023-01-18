@@ -16,13 +16,7 @@ class Person(BaseModel):
 
 	# return a dictionary of class's attributes
 	def get_dictionary(self):
-		return {
-			"id": self.id,
-			"name": self.name,
-			"research-focus": self.research_focus,
-			"hobbies": self.hobbies,
-			"spirit-animal": self.spirit_animal
-		}
+		return self.__dict__
 
 # create a root endpoint
 @app.get("/")
