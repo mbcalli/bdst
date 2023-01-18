@@ -41,6 +41,20 @@
                 "special-power": "super strength",
                 "favorite-food": "rice"
             }
+        },
+        {
+            "id": 7,
+            "name": "rocket",
+            "research-focus": "space toys",
+            "hobbies": [
+                "talking to groot",
+                "fake arms"
+            ],
+            "spirit-animal": {
+                "animal-type": "racoon",
+                "special-power": "talking",
+                "favorite-food": "trash"
+            }
         }
     ]
 }

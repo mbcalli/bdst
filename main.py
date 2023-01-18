@@ -27,11 +27,11 @@ class Person(BaseModel):
 # create a root endpoint
 @app.get("/")
 def read_root():
-	return {"Hello": "World"}
+	return "Hello, world"
 
 # POST to create a person using the Person class
 # writes to a json file
-@app.post("/person/create")
+@app.post("/people/create/")
 def create_person(person: Person):
 	with open('people.json', 'r+') as file:
 		file_data = json.load(file)
@@ -47,19 +47,30 @@ def create_person(person: Person):
 		json.dump(file_data, file, indent=4)
 
 # GET to retreive all people
-@app.get("/people")
-def get_people():
+@app.get("/people/")
+def get_people(person_name: str = None, person_id: int = None):
 	with open('people.json', 'r') as file:
 		file_data = json.load(file)['people']
-		return file_data
 
-# GET to retreive a specific person
-@app.get("/person/{person_id}")
-def get_person(person_id: int):
-	with open('people.json', 'r') as file:
-		file_data = json.load(file)['people']
-		if person_id:
+		# uery only using name
+		if person_name and person_id is None:
+			# get only the people with the specified name
+			file_data = [x for x in file_data if x['name'] == person_name]
+
+		# query only using id
+		elif person_id and person_name is None:
 			# get only the people with the specified person_id
 			# Note: should only be one person with a given id
 			file_data = [x for x in file_data if x['id'] == person_id][0]
+
+		# query using both name and id
+		elif person_name and person_id:
+			# get only the people with the specified name and person_id
+			file_data = [x for x in file_data if x['name'] == person_name and x['id'] == person_id]
+
+		# query using neither name nor id
+		else:
+			# get all people
+			pass
+
 		return file_data
