@@ -1,1 +1,1 @@
-Directory used for my Biomedical Data Science and Informatics coursework. Work completed for Clemson University.
+Directory used for my Biomedical Data Standards and Terms.
