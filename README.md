@@ -1,1 +1,1 @@
-Directory used for my Biomedical Data Standards and Terms.
+Directory used for my Biomedical Data Standards and Terms class.
