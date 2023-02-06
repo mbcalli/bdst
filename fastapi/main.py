@@ -1,7 +1,152 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Body
 from pydantic import BaseModel
-
+import dictfier
 import json
+from fhir import *
+
+query = [
+	{
+		"identifier": [
+			"use",
+			"system",
+			"value",
+			"period",
+			"assigner"
+		]
+	},
+	"active",
+	{
+		"name": [
+			"use",
+			"text",
+			"family",
+			"given",
+			"prefix",
+			"suffix",
+			"period"
+		]
+	},
+	{
+		"telecom": [
+			"system",
+			"value",
+			"use",
+			"rank",
+			"period"
+		]
+	},
+	"gender",
+	"birthDate",
+	{
+		"deceased": [
+			"deceasedBoolean",
+			"deceasedDateTime"
+		]
+	},
+	{
+		"address": [
+			"use",
+			"type",
+			"text",
+			"line",
+			"city",
+			"district",
+			"state",
+			"postalCode",
+			"country",
+			"period"
+		]
+	},
+	{
+		"maritalStatus": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"multipleBirth": [
+			"multipleBirthBoolean",
+			"multipleBirthInteger"
+		]
+	},
+	{
+		"photo": [
+			"contentType",
+			"language",
+			"data",
+			"uri",
+			"size",
+			"hash",
+			"title",
+			"creation"
+		]
+	},
+	{
+		"contact": [
+			{
+				"relationship": [
+					"coding",
+					"text"
+				]
+			},
+			{
+				"name": [
+					"use",
+					"text",
+					"family",
+					"given",
+					"prefix",
+					"suffix",
+					"period"
+				]
+			},
+			{
+				"telecom": [
+					"system",
+					"value",
+					"use",
+					"rank",
+					"period"
+				]
+			},
+			{
+				"address": [
+					"use",
+					"type",
+					"text",
+					"line",
+					"city",
+					"district",
+					"state",
+					"postalCode",
+					"country",
+					"period"
+				]
+			},
+			"organization",
+			"period"
+		]
+	},
+	{
+		"communication": [
+			{
+				"language": [
+					"coding",
+					"text"
+				]
+			},
+			"preferred"
+		]
+	},
+	"generalPractitioner",
+	"managingOrganization",
+	{
+		"link": [
+			"other",
+			"type"
+		]
+	}
+]
 
 # initialize the app
 app = FastAPI()
@@ -21,11 +166,61 @@ class Person(BaseModel):
 # create a root endpoint
 @app.get("/")
 def read_root():
-	return "Hello, world"
+	return "This is an API created for BDSI 8020."
+
+# POST to create a patient using the Patient class from fhir.py
+# writes to a json file
+@app.post("/create/patient/")
+def create_patient(payload: dict = Body(...)):
+	with open('patients.json', 'r+') as file:
+		file_data = json.load(file)
+
+		patient = Patient(**payload)
+
+		d = dictfier.dictfy(patient, query)
+		
+		file_data['patients'].append(d)
+		print(patient.__dict__)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+
+@app.put("/update/patient/{patient_id}/")
+def update_patient(patient_id: int, payload: dict = Body(...)):
+	with open('patients.json', 'r+') as file:
+		file_data = json.load(file)
+
+		file_data = {'patients': [x for x in file_data['patients'] if x['identifier']['value'] != patient_id]}
+
+		patient = Patient(**payload)
+
+		d = dictfier.dictfy(patient, query)
+		
+		file_data['patients'].append(d)
+		print(patient.__dict__)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+@app.get("/get/patient/")
+def get_patient(patient_id: int = None):
+	with open('patients.json', 'r') as file:
+		file_data = json.load(file)['patients']
+
+		# uery only using name
+		if patient_id is not None:
+			# get only the people with the specified name
+			file_data = [x for x in file_data if x['identifier']['value'] == patient_id]
+
+		return file_data
+
+
+
+################################################################################
+
 
 # POST to create a person using the Person class
 # writes to a json file
-@app.post("/people/create/")
+@app.post("/create/person/")
 def create_person(person: Person):
 	with open('people.json', 'r+') as file:
 		file_data = json.load(file)
@@ -41,7 +236,7 @@ def create_person(person: Person):
 		json.dump(file_data, file, indent=4)
 
 # GET to retreive all people
-@app.get("/people/")
+@app.get("/get/person/")
 def get_people(person_name: str = None, person_id: int = None):
 	with open('people.json', 'r') as file:
 		file_data = json.load(file)['people']
