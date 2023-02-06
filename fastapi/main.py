@@ -4,6 +4,9 @@ import dictfier
 import json
 from fhir import *
 
+with open('dictfier_query.json', 'r') as file:
+	query = json.load(file)
+
 query = [
 	{
 		"identifier": [
@@ -147,6 +150,7 @@ query = [
 		]
 	}
 ]
+
 
 # initialize the app
 app = FastAPI()

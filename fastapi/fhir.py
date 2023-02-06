@@ -107,10 +107,11 @@ class Contact:
 
 @dataclass
 class Communication:
-	# The language
-	language: CodeableConcept = CodeableConcept()
-	# Language preference indicator
-	preferred: bool = True
+
+	def __init__(self, language: CodeableConcept = {}, preferred: bool = True):
+		self.language = CodeableConcept(**language)
+		self.preferred = preferred
+
 
 @dataclass
 class Link:
@@ -151,9 +152,6 @@ class Patient:
 		self.managingOrganization = managingOrganization
 		self.link = Link(**link)
 
-	def update(self,  **kwargs):
-		for key, value in kwargs.items():
-			setattr(self, key, value)
 	
 	def get_dictionary(self):
 		return self.__dict__

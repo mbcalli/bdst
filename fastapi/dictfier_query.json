@@ -1,0 +1,143 @@
+[
+	{
+		"identifier": [
+			"use",
+			"system",
+			"value",
+			"period",
+			"assigner"
+		]
+	},
+	"active",
+	{
+		"name": [
+			"use",
+			"text",
+			"family",
+			"given",
+			"prefix",
+			"suffix",
+			"period"
+		]
+	},
+	{
+		"telecom": [
+			"system",
+			"value",
+			"use",
+			"rank",
+			"period"
+		]
+	},
+	"gender",
+	"birthDate",
+	{
+		"deceased": [
+			"deceasedBoolean",
+			"deceasedDateTime"
+		]
+	},
+	{
+		"address": [
+			"use",
+			"type",
+			"text",
+			"line",
+			"city",
+			"district",
+			"state",
+			"postalCode",
+			"country",
+			"period"
+		]
+	},
+	{
+		"maritalStatus": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"multipleBirth": [
+			"multipleBirthBoolean",
+			"multipleBirthInteger"
+		]
+	},
+	{
+		"photo": [
+			"contentType",
+			"language",
+			"data",
+			"uri",
+			"size",
+			"hash",
+			"title",
+			"creation"
+		]
+	},
+	{
+		"contact": [
+			{
+				"relationship": [
+					"coding",
+					"text"
+				]
+			},
+			{
+				"name": [
+					"use",
+					"text",
+					"family",
+					"given",
+					"prefix",
+					"suffix",
+					"period"
+				]
+			},
+			{
+				"telecom": [
+					"system",
+					"value",
+					"use",
+					"rank",
+					"period"
+				]
+			},
+			{
+				"address": [
+					"use",
+					"type",
+					"text",
+					"line",
+					"city",
+					"district",
+					"state",
+					"postalCode",
+					"country",
+					"period"
+				]
+			},
+			"organization",
+			"period"
+		]
+	},
+	{
+		"communication": [
+			{
+				"language": [
+					"coding",
+					"text"
+				]
+			},
+			"preferred"
+		]
+	},
+	"generalPractitioner",
+	"managingOrganization",
+	{
+		"link": [
+			"other",
+			"type"
+		]
+	}
+]
