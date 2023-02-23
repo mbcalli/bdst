@@ -2,10 +2,20 @@ from fastapi import FastAPI, HTTPException, Body
 from pydantic import BaseModel
 import dictfier
 import json
+import requests
 from fhir import *
 
-with open('dictfier_query.json', 'r') as file:
-	query = json.load(file)
+with open('patient_dict_query.json', 'r') as file:
+	patient_dict_query = json.load(file)
+
+with open('condition_dict_query.json', 'r') as file:
+	condition_dict_query = json.load(file)
+
+with open('keys.json', 'r') as file:
+	API_KEY = json.load(file)['API_KEY']
+
+ULMS_BASE_URL = 'https://uts-ws.nlm.nih.gov/rest'
+
 
 # initialize the app
 app = FastAPI()
@@ -22,10 +32,86 @@ class Person(BaseModel):
 	def get_dictionary(self):
 		return self.__dict__
 
+
 # create a root endpoint
 @app.get("/")
 def read_root():
 	return "This is an API created for BDSI 8020."
+
+################################################################################
+
+# POST to create a condition using the Condition class from fhir.py
+# writes to a json file
+
+def get_ICD10_code_from_diagnosis(diagnosis: str):
+	endpoint_url = '/search/current'
+	query_params = f'?string={diagnosis}&sabs=ICD10CM&returnIdType=code&apiKey={API_KEY}'
+	url = ULMS_BASE_URL + endpoint_url + query_params
+
+	response = requests.get(url)
+
+	if response.status_code != 200:
+		return None
+
+	result = response.json()['result']['results']
+	return result[0]['ui']
+
+
+
+@app.post("/create/condition/{patient_id}")
+def create_patient(patient_id: int, payload: dict = Body(...)):
+	with open('conditions.json', 'r+') as file:
+		file_data = json.load(file)
+
+		condition = Condition(**payload)
+		condition.subject = patient_id
+
+		# Get ICD10 code from diagnosis
+		diagnosis = condition.code.text
+		ICD10_code = get_ICD10_code_from_diagnosis(diagnosis)
+		condition.code.coding = ICD10_code
+
+		d = dictfier.dictfy(condition, condition_dict_query)
+		
+		file_data['conditions'].append(d)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+@app.put("/update/condition/{condition_id}/patient/{patient_id")
+def update_patient(condition_id: int, patient_id: int, payload: dict = Body(...)):
+	with open('conditions.json', 'r+') as file:
+		file_data = json.load(file)
+
+		file_data = {'conditions': [x for x in file_data['conditions'] if x['identifier']['value'] != condition_id]}
+
+		condition = Condition(**payload)
+		condition.subject = patient_id
+
+		# Get ICD10 code from diagnosis
+		diagnosis = condition.code.text
+		ICD10_code = get_ICD10_code_from_diagnosis(diagnosis)
+		condition.code.coding = ICD10_code
+
+		diagnosis = condition.code.text
+		ICD10_code = get_ICD10_code_from_diagnosis(diagnosis)
+		condition.code.coding = ICD10_code
+
+		d = dictfier.dictfy(condition, condition_dict_query)
+		
+		file_data['conditions'].append(d)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+@app.get("/get/conditions/{patient_id}")
+def get_patient(patient_id: int = None):
+	with open('conditions.json', 'r') as file:
+		file_data = json.load(file)['conditions']
+
+		file_data = [x for x in file_data if x['subject'] == patient_id]
+
+		return file_data
+
+################################################################################
 
 # POST to create a patient using the Patient class from fhir.py
 # writes to a json file
@@ -36,7 +122,7 @@ def create_patient(payload: dict = Body(...)):
 
 		patient = Patient(**payload)
 
-		d = dictfier.dictfy(patient, query)
+		d = dictfier.dictfy(patient, patient_dict_query)
 		
 		file_data['patients'].append(d)
 		print(patient.__dict__)
@@ -53,7 +139,7 @@ def update_patient(patient_id: int, payload: dict = Body(...)):
 
 		patient = Patient(**payload)
 
-		d = dictfier.dictfy(patient, query)
+		d = dictfier.dictfy(patient, patient_dict_query)
 		
 		file_data['patients'].append(d)
 		print(patient.__dict__)

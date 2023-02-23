@@ -155,3 +155,32 @@ class Patient:
 	
 	def get_dictionary(self):
 		return self.__dict__
+
+
+
+
+class Condition:
+
+	def __init__(self, identifier={}, clinicalStatus = {}, verificationStatus = {}, category = {}, severity = {}, code = {}, bodySite = {}, onsetDateTime = None, onsetAge = None, onsetPeriod = None, onsetRange = None, onsetString = None, abatementDateTime = None, abatementAge = None, abatementBoolean = None, abatementPeriod = None, abatementRange = None, abatementString = None, recordedDate = None, recorder = None, asserter = None):
+		self.identifier = Identifier(**identifier)
+		self.clinicalStatus = CodeableConcept(**clinicalStatus)
+		self.verificationStatus = CodeableConcept(**verificationStatus)
+		self.category = CodeableConcept(**category)
+		self.severity = CodeableConcept(**severity)
+		self.code = CodeableConcept(**code)
+		self.bodySite = CodeableConcept(**bodySite)
+		self.subject = None
+		self.onsetDateTime = onsetDateTime
+		self.onsetAge = onsetAge
+		self.onsetPeriod = onsetPeriod
+		self.onsetRange = onsetRange
+		self.onsetString = onsetString
+		self.abatementDateTime = abatementDateTime
+		self.abatementAge = abatementAge
+		self.abatementBoolean = abatementBoolean
+		self.abatementPeriod = abatementPeriod
+		self.abatementRange = abatementRange
+		self.abatementString = abatementString
+		self.recordedDate = recordedDate
+		self.recorder = recorder
+		self.asserter = asserter

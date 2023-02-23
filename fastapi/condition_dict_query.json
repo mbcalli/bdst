@@ -1,0 +1,62 @@
+[
+	{
+		"identifier": [
+			"use",
+			"system",
+			"value",
+			"period",
+			"assigner"
+		]
+	},
+	{
+		"clinicalStatus": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"verificationStatus": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"category": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"severity": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"code": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"bodySite": [
+			"coding",
+			"text"
+		]
+	},
+	"subject",
+	"onsetDateTime",
+	"onsetAge",
+	"onsetPeriod",
+	"onsetRange",
+	"onsetString",
+	"abatementDateTime",
+	"abatementAge",
+	"abatementBoolean",
+	"abatementPeriod",
+	"abatementRange",
+	"abatementString",
+	"recordedDate",
+	"recorder",
+	"asserter"
+]
