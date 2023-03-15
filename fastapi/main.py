@@ -10,6 +10,9 @@ with open('patient_dict_query.json', 'r') as file:
 
 with open('condition_dict_query.json', 'r') as file:
 	condition_dict_query = json.load(file)
+ 
+with open('observation_dict_query.json', 'r') as file:
+        observation_dict_query = json.load(file)
 
 with open('keys.json', 'r') as file:
 	API_KEY = json.load(file)['API_KEY']
@@ -38,6 +41,82 @@ class Person(BaseModel):
 def read_root():
 	return "This is an API created for BDSI 8020."
 
+################################################################################
+# OBSSERVATIONS
+################################################################################
+
+# POST to create a condition using the Condition class from fhir.py
+# writes to a json file
+
+def get_LOINC_lab_name_from_code(code: str):
+	endpoint_url = '/content/current'
+	query_params = f'/source/LNC/{code}?apiKey={API_KEY}'
+	url = ULMS_BASE_URL + endpoint_url + query_params
+
+	response = requests.get(url)
+
+	if response.status_code != 200:
+		return None
+		
+	name = response.json()['result']['name']
+
+	return name
+
+
+
+@app.post("/create/observation/{patient_id}")
+def create_patient(patient_id: int, payload: dict = Body(...)):
+	with open('observations.json', 'r+') as file:
+		file_data = json.load(file)
+
+		observation = Observation(**payload)
+		observation.subject = patient_id
+
+		# Get the lab name from the LOINC code
+		LOINC_code = observation.code.coding
+		lab_name = get_LOINC_lab_name_from_code(LOINC_code)
+		observation.code.text = lab_name
+
+		print('a')
+		d = dictfier.dictfy(observation, observation_dict_query)
+		print('b')
+		file_data['observations'].append(d)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+@app.put("/update/observation/{observation_id}/patient/{patient_id}")
+def update_patient(observation_id: int, patient_id: int, payload: dict = Body(...)):
+	with open('observations.json', 'r+') as file:
+		file_data = json.load(file)
+
+		file_data = {'observations': [x for x in file_data['observations'] if x['identifier']['value'] != observation_id]}
+
+		observation = Observation(**payload)
+		observation.subject = patient_id
+
+		# Get the lab name from the LOINC code
+		LOINC_code = observation.code.coding
+		lab_name = get_LOINC_lab_name_from_code(LOINC_code)
+		observation.code.text = lab_name
+  
+
+		d = dictfier.dictfy(observation, observation_dict_query)
+		
+		file_data['observations'].append(d)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+@app.get("/get/observations/{patient_id}")
+def get_patient(patient_id: int = None):
+	with open('observations.json', 'r') as file:
+		file_data = json.load(file)['observations']
+
+		file_data = [x for x in file_data if x['subject'] == patient_id]
+
+		return file_data
+
+################################################################################
+# CONDITIONS
 ################################################################################
 
 # POST to create a condition using the Condition class from fhir.py
@@ -77,7 +156,7 @@ def create_patient(patient_id: int, payload: dict = Body(...)):
 		file.seek(0)
 		json.dump(file_data, file, indent=4, default=str)
 
-@app.put("/update/condition/{condition_id}/patient/{patient_id")
+@app.put("/update/condition/{condition_id}/patient/{patient_id}")
 def update_patient(condition_id: int, patient_id: int, payload: dict = Body(...)):
 	with open('conditions.json', 'r+') as file:
 		file_data = json.load(file)
@@ -111,6 +190,8 @@ def get_patient(patient_id: int = None):
 
 		return file_data
 
+################################################################################
+# PATIENTS
 ################################################################################
 
 # POST to create a patient using the Patient class from fhir.py
@@ -160,6 +241,8 @@ def get_patient(patient_id: int = None):
 
 
 
+################################################################################
+# PERSONS
 ################################################################################
 
 

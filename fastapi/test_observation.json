@@ -1,0 +1,72 @@
+{
+	"identifier": {
+		"use": "usual",
+		"system": null,
+		"value": 123,
+		"period": null,
+		"assigner": null
+	},
+	"category": {
+		"coding": null,
+		"text": null
+	},
+	"code": {
+		"coding": "94123-7",
+		"text": null
+	},
+	"valueQuantity": {
+		"value": 120,
+		"comparator": null,
+		"unit": "mmHg",
+		"system": null,
+		"code": null
+	},
+	"valueCodeableConcept": {
+		"coding": null,
+		"text": null
+	},
+	"dataAbsentReason": {
+		"coding": null,
+		"text": null
+	},
+	"interpretation": {
+		"coding": null,
+		"text": null
+	},
+	"bodySite": {
+		"coding": null,
+		"text": null
+	},
+	"method": {
+		"coding": null,
+		"text": null
+	},
+	"basedOn": null,
+	"partOf": null,
+	"status": null,
+	"subject": null,
+	"focus": null,
+	"encounter": null,
+	"effectiveDateTime": null,
+	"effectivePeriod": null,
+	"effectiveTiming": null,
+	"effectiveInstant": null,
+	"issued": null,
+	"performer": null,
+	"valueString": null,
+	"valueBoolean": null,
+	"valueInteger": null,
+	"valueRange": null,
+	"valueRatio": null,
+	"valueSampledData": null,
+	"valueTime": null,
+	"valueDateTime": null,
+	"valuePeriod": null,
+	"note": null,
+	"specimen": null,
+	"device": null,
+	"referenceRange": null,
+	"hasMember": null,
+	"derivedFrom": null,
+	"component": null
+}

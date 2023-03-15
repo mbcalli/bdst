@@ -184,3 +184,44 @@ class Condition:
 		self.recordedDate = recordedDate
 		self.recorder = recorder
 		self.asserter = asserter
+  
+class Observation:
+        
+        def __init__(self, identifier={}, basedOn = None, partOf = None, status = None, category = {}, code = {}, subject = None, focus = None, encounter = None, effectiveDateTime = None, effectivePeriod = None, effectiveTiming = None, effectiveInstant = None, issued = None, performer = None, valueQuantity = None, valueCodeableConcept = {}, valueString = None, valueBoolean = None, valueInteger = None, valueRange = None, valueRatio = None, valueSampledData = None, valueTime = None, valueDateTime = None, valuePeriod = None, dataAbsentReason = {}, interpretation = {}, note = None, bodySite = {}, method = {}, specimen = None, device = None, referenceRange=None, hasMember = None, derivedFrom = None, component = None):
+                self.identifier = Identifier(**identifier)
+                self.basedOn = basedOn
+                self.partOf = partOf
+                self.status = status
+                self.category = CodeableConcept(**category)
+                self.code = CodeableConcept(**code)
+                self.subject = subject
+                self.focus = focus
+                self.encounter = encounter
+                self.effectiveDateTime = effectiveDateTime
+                self.effectivePeriod = effectivePeriod
+                self.effectiveTiming = effectiveTiming
+                self.effectiveInstant = effectiveInstant
+                self.issued = issued
+                self.performer = performer
+                self.valueQuantity = valueQuantity
+                self.valueCodeableConcept = CodeableConcept(**valueCodeableConcept)
+                self.valueString = valueString
+                self.valueBoolean = valueBoolean
+                self.valueInteger = valueInteger
+                self.valueRange = valueRange
+                self.valueRatio = valueRatio
+                self.valueSampledData = valueSampledData
+                self.valueTime = valueTime
+                self.valueDateTime = valueDateTime
+                self.valuePeriod = valuePeriod
+                self.dataAbsentReason = CodeableConcept(**dataAbsentReason)
+                self.interpretation = CodeableConcept(**interpretation)
+                self.note = note
+                self.bodySite = CodeableConcept(**bodySite)
+                self.method = CodeableConcept(**method)
+                self.specimen = specimen
+                self.device = device
+                self.referenceRange = referenceRange
+                self.hasMember = hasMember
+                self.derivedFrom = derivedFrom
+                self.component = component

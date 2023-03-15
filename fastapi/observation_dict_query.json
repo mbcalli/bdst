@@ -1,0 +1,82 @@
+[
+	{
+		"identifier": [
+			"use",
+			"system",
+			"value",
+			"period",
+			"assigner"
+		]
+	},
+	"basedOn",
+	"partOf",
+	"status",
+	{
+		"category": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"code": [
+			"coding",
+			"text"
+		]
+	},
+	"subject",
+	"focus",
+	"encounter",
+	"effectiveDateTime",
+	"effectivePeriod",
+	"effectiveTiming",
+	"effectiveInstant",
+	"issued",
+	"performer",
+	"valueQuantity",
+	{
+		"valueCodeableConcept": [
+			"coding",
+			"text"
+		]
+	},
+	"valueString",
+	"valueBoolean",
+	"valueInteger",
+	"valueRange",
+	"valueRatio",
+	"valueSampledData",
+	"valueTime",
+	"valueDateTime",
+	"valuePeriod",
+	{
+		"dataAbsentReason": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"interpretation": [
+			"coding",
+			"text"
+		]
+	},
+	"note",
+	{
+		"bodySite": [
+			"coding",
+			"text"
+		]
+	},
+	{
+		"method": [
+			"coding",
+			"text"
+		]
+	},
+	"specimen",
+	"device",
+	"referenceRange",
+	"hasMember",
+	"derivedFrom",
+	"component"
+]
