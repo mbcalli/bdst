@@ -5,13 +5,13 @@ import json
 import requests
 from fhir import *
 
-with open('patient_dict_query.json', 'r') as file:
+with open('dictfier_queries/patient_dict_query.json', 'r') as file:
 	patient_dict_query = json.load(file)
 
-with open('condition_dict_query.json', 'r') as file:
+with open('dictfier_queries/condition_dict_query.json', 'r') as file:
 	condition_dict_query = json.load(file)
  
-with open('observation_dict_query.json', 'r') as file:
+with open('dictfier_queries/observation_dict_query.json', 'r') as file:
         observation_dict_query = json.load(file)
 
 with open('keys.json', 'r') as file:
@@ -66,7 +66,7 @@ def get_LOINC_lab_name_from_code(code: str):
 
 @app.post("/create/observation/{patient_id}")
 def create_patient(patient_id: int, payload: dict = Body(...)):
-	with open('observations.json', 'r+') as file:
+	with open('databases/observations.json', 'r+') as file:
 		file_data = json.load(file)
 
 		observation = Observation(**payload)
@@ -86,7 +86,7 @@ def create_patient(patient_id: int, payload: dict = Body(...)):
 
 @app.put("/update/observation/{observation_id}/patient/{patient_id}")
 def update_patient(observation_id: int, patient_id: int, payload: dict = Body(...)):
-	with open('observations.json', 'r+') as file:
+	with open('databases/observations.json', 'r+') as file:
 		file_data = json.load(file)
 
 		file_data = {'observations': [x for x in file_data['observations'] if x['identifier']['value'] != observation_id]}
@@ -108,7 +108,7 @@ def update_patient(observation_id: int, patient_id: int, payload: dict = Body(..
 
 @app.get("/get/observations/{patient_id}")
 def get_patient(patient_id: int = None):
-	with open('observations.json', 'r') as file:
+	with open('databases/observations.json', 'r') as file:
 		file_data = json.load(file)['observations']
 
 		file_data = [x for x in file_data if x['subject'] == patient_id]
@@ -139,7 +139,7 @@ def get_ICD10_code_from_diagnosis(diagnosis: str):
 
 @app.post("/create/condition/{patient_id}")
 def create_patient(patient_id: int, payload: dict = Body(...)):
-	with open('conditions.json', 'r+') as file:
+	with open('databases/conditions.json', 'r+') as file:
 		file_data = json.load(file)
 
 		condition = Condition(**payload)
@@ -158,7 +158,7 @@ def create_patient(patient_id: int, payload: dict = Body(...)):
 
 @app.put("/update/condition/{condition_id}/patient/{patient_id}")
 def update_patient(condition_id: int, patient_id: int, payload: dict = Body(...)):
-	with open('conditions.json', 'r+') as file:
+	with open('databases/conditions.json', 'r+') as file:
 		file_data = json.load(file)
 
 		file_data = {'conditions': [x for x in file_data['conditions'] if x['identifier']['value'] != condition_id]}
@@ -183,7 +183,7 @@ def update_patient(condition_id: int, patient_id: int, payload: dict = Body(...)
 
 @app.get("/get/conditions/{patient_id}")
 def get_patient(patient_id: int = None):
-	with open('conditions.json', 'r') as file:
+	with open('databases/conditions.json', 'r') as file:
 		file_data = json.load(file)['conditions']
 
 		file_data = [x for x in file_data if x['subject'] == patient_id]
@@ -198,7 +198,7 @@ def get_patient(patient_id: int = None):
 # writes to a json file
 @app.post("/create/patient/")
 def create_patient(payload: dict = Body(...)):
-	with open('patients.json', 'r+') as file:
+	with open('databases/patients.json', 'r+') as file:
 		file_data = json.load(file)
 
 		patient = Patient(**payload)
@@ -213,7 +213,7 @@ def create_patient(payload: dict = Body(...)):
 
 @app.put("/update/patient/{patient_id}/")
 def update_patient(patient_id: int, payload: dict = Body(...)):
-	with open('patients.json', 'r+') as file:
+	with open('databases/patients.json', 'r+') as file:
 		file_data = json.load(file)
 
 		file_data = {'patients': [x for x in file_data['patients'] if x['identifier']['value'] != patient_id]}
@@ -229,7 +229,7 @@ def update_patient(patient_id: int, payload: dict = Body(...)):
 
 @app.get("/get/patient/")
 def get_patient(patient_id: int = None):
-	with open('patients.json', 'r') as file:
+	with open('databases/patients.json', 'r') as file:
 		file_data = json.load(file)['patients']
 
 		# uery only using name
@@ -250,7 +250,7 @@ def get_patient(patient_id: int = None):
 # writes to a json file
 @app.post("/create/person/")
 def create_person(person: Person):
-	with open('people.json', 'r+') as file:
+	with open('databases/people.json', 'r+') as file:
 		file_data = json.load(file)
 
 		# check if the person_id already exists
@@ -266,7 +266,7 @@ def create_person(person: Person):
 # GET to retreive all people
 @app.get("/get/person/")
 def get_people(person_name: str = None, person_id: int = None):
-	with open('people.json', 'r') as file:
+	with open('databases/people.json', 'r') as file:
 		file_data = json.load(file)['people']
 
 		# uery only using name
