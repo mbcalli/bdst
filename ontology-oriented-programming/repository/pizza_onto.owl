@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="https://matthew.com/pizza_onto.owl"
+         xmlns="https://matthew.com/pizza_onto.owl#">
+
+<owl:Ontology rdf:about="https://matthew.com/pizza_onto.owl"/>
+
+<owl:ObjectProperty rdf:about="#has_topping">
+  <rdfs:domain rdf:resource="#Pizza"/>
+  <rdfs:range rdf:resource="#Topping"/>
+</owl:ObjectProperty>
+
+<owl:Class rdf:about="#Pizza">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Topping">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MeatTopping">
+  <rdfs:subClassOf rdf:resource="#Topping"/>
+</owl:Class>
+
+<owl:Class rdf:about="#FishTopping">
+  <rdfs:subClassOf rdf:resource="#MeatTopping"/>
+</owl:Class>
+
+<owl:Class rdf:about="#NonVegetarianPizza">
+  <rdfs:subClassOf rdf:resource="#Pizza"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Pizza"/>
+        <owl:Class>
+          <owl:unionOf rdf:parseType="Collection">
+            <owl:Restriction>
+              <owl:onProperty rdf:resource="#has_topping"/>
+              <owl:someValuesFrom rdf:resource="#MeatTopping"/>
+            </owl:Restriction>
+            <owl:Restriction>
+              <owl:onProperty rdf:resource="#has_topping"/>
+              <owl:someValuesFrom rdf:resource="#FishTopping"/>
+            </owl:Restriction>
+          </owl:unionOf>
+        </owl:Class>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+</owl:Class>
+
+<Pizza rdf:about="#non_veggie_pizza">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <has_topping rdf:resource="#pepperoni"/>
+  <rdf:type rdf:resource="#NonVegetarianPizza"/>
+</Pizza>
+
+<MeatTopping rdf:about="#pepperoni">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+</MeatTopping>
+
+
+</rdf:RDF>
