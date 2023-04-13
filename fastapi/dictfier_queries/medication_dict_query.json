@@ -1,0 +1,96 @@
+[
+    "resourceType",
+    {
+        "identifier":  [
+                "use",
+                "system",
+                "value",
+                "period",
+                "assigner"
+        ]
+    },
+    "basedOnpriorPrescription",
+    {
+        "groupIdentifier":  [
+            "use",
+            "system",
+            "value",
+            "period",
+            "assigner"
+        ]
+    },
+    "status",
+    {
+        "statusReason":  [
+            "coding",
+            "text"
+        ]
+    },
+    "statusChanged",
+    "intent",
+    {
+        "category": [
+            "coding",
+            "text"
+        ]
+    },
+    "priority",
+    "doNotPerform",
+    {
+        "medication":  [
+            "coding",
+            "text"
+        ]
+    },
+    "subject",
+    "informationSource",
+    "encounter",
+    "supportingInformation",
+    "authoredOn",
+    "requester",
+    "reported",
+    {
+        "performerType":  [
+            "coding",
+            "text"
+        ]
+    },
+    "performer",
+    {
+        "device":  [
+            "coding",
+            "text"
+        ]
+    },
+    "recorder",
+    {
+        "reason":  [
+            "coding",
+            "text"
+        ]
+    },
+    {
+        "courseOfTherapyType":  [
+            "coding",
+            "text"
+        ]
+    },
+    "insurance",
+    "note",
+    "renderedDosageInstruction",
+    "effectiveDosePeriod",
+    "dosageInstruction",
+    {
+        "dispenseRequest":  [
+            "coding",
+            "text"
+        ]
+    },
+    {
+        "substitution":  [
+            "coding",
+            "text"
+        ]
+    },
+    "eventHistory"
+]

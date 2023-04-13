@@ -13,11 +13,15 @@ with open('dictfier_queries/condition_dict_query.json', 'r') as file:
  
 with open('dictfier_queries/observation_dict_query.json', 'r') as file:
         observation_dict_query = json.load(file)
+        
+with open('dictfier_queries/medication_dict_query.json', 'r') as file:
+        medication_dict_query = json.load(file)
 
 with open('keys.json', 'r') as file:
 	API_KEY = json.load(file)['API_KEY']
 
 ULMS_BASE_URL = 'https://uts-ws.nlm.nih.gov/rest'
+RXNORM_BASE_URL = 'https://rxnav.nlm.nih.gov/REST'
 
 
 # initialize the app
@@ -40,6 +44,78 @@ class Person(BaseModel):
 @app.get("/")
 def read_root():
 	return "This is an API created for BDSI 8020."
+
+################################################################################
+# MEDICATIONS
+################################################################################
+
+# POST to create a condition using the Medication class from fhir.py
+# writes to a json file
+
+def get_RXNORM_code_from_medication(medication: str):
+	endpoint_url = '/rxcui.json'
+	query_params = f'?name={medication}&search=1&apiKey={API_KEY}'
+	url = RXNORM_BASE_URL + endpoint_url + query_params
+
+	response = requests.get(url)
+
+	if response.status_code != 200:
+		return None
+
+	result = response.json()['idGroup']['rxnormId']
+	return result[0]
+
+
+
+@app.post("/create/medication/{patient_id}")
+def create_medication(patient_id: int, payload: dict = Body(...)):
+	with open('databases/medications.json', 'r+') as file:
+		file_data = json.load(file)
+
+		medication = Medication(**payload)
+		medication.subject = patient_id
+
+		# Get ICD10 code from diagnosis
+		medication_string = medication.medication.text
+		rxnorm_code = get_RXNORM_code_from_medication(medication_string)
+		medication.medication.coding = rxnorm_code
+
+		d = dictfier.dictfy(medication, medication_dict_query)
+		
+		file_data['medications'].append(d)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+@app.put("/update/medication/{medication_id}/patient/{patient_id}")
+def update_medication(medication_id: int, patient_id: int, payload: dict = Body(...)):
+	with open('databases/medications.json', 'r+') as file:
+		file_data = json.load(file)
+
+		file_data = {'medications': [x for x in file_data['medications'] if x['identifier']['value'] != medication_id]}
+
+		medication = Medication(**payload)
+		medication.subject = patient_id
+
+		medication_string = medication.code.text
+		rxnorm_code = get_RXNORM_code_from_medication(medication_string)
+		medication.code.coding = rxnorm_code
+
+
+		d = dictfier.dictfy(medication, medication_dict_query)
+		
+		file_data['medications'].append(d)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+@app.get("/get/medications/{patient_id}")
+def get_medication(patient_id: int = None):
+	with open('databases/medications.json', 'r') as file:
+		file_data = json.load(file)['medications']
+
+		file_data = [x for x in file_data if x['subject'] == patient_id]
+
+		return file_data
+
 
 ################################################################################
 # OBSSERVATIONS
@@ -65,7 +141,7 @@ def get_LOINC_lab_name_from_code(code: str):
 
 
 @app.post("/create/observation/{patient_id}")
-def create_patient(patient_id: int, payload: dict = Body(...)):
+def create_observation(patient_id: int, payload: dict = Body(...)):
 	with open('databases/observations.json', 'r+') as file:
 		file_data = json.load(file)
 
@@ -85,7 +161,7 @@ def create_patient(patient_id: int, payload: dict = Body(...)):
 		json.dump(file_data, file, indent=4, default=str)
 
 @app.put("/update/observation/{observation_id}/patient/{patient_id}")
-def update_patient(observation_id: int, patient_id: int, payload: dict = Body(...)):
+def update_observation(observation_id: int, patient_id: int, payload: dict = Body(...)):
 	with open('databases/observations.json', 'r+') as file:
 		file_data = json.load(file)
 
@@ -107,7 +183,7 @@ def update_patient(observation_id: int, patient_id: int, payload: dict = Body(..
 		json.dump(file_data, file, indent=4, default=str)
 
 @app.get("/get/observations/{patient_id}")
-def get_patient(patient_id: int = None):
+def get_observation(patient_id: int = None):
 	with open('databases/observations.json', 'r') as file:
 		file_data = json.load(file)['observations']
 
@@ -138,7 +214,7 @@ def get_ICD10_code_from_diagnosis(diagnosis: str):
 
 
 @app.post("/create/condition/{patient_id}")
-def create_patient(patient_id: int, payload: dict = Body(...)):
+def create_condition(patient_id: int, payload: dict = Body(...)):
 	with open('databases/conditions.json', 'r+') as file:
 		file_data = json.load(file)
 
@@ -157,7 +233,7 @@ def create_patient(patient_id: int, payload: dict = Body(...)):
 		json.dump(file_data, file, indent=4, default=str)
 
 @app.put("/update/condition/{condition_id}/patient/{patient_id}")
-def update_patient(condition_id: int, patient_id: int, payload: dict = Body(...)):
+def update_condition(condition_id: int, patient_id: int, payload: dict = Body(...)):
 	with open('databases/conditions.json', 'r+') as file:
 		file_data = json.load(file)
 
@@ -182,7 +258,7 @@ def update_patient(condition_id: int, patient_id: int, payload: dict = Body(...)
 		json.dump(file_data, file, indent=4, default=str)
 
 @app.get("/get/conditions/{patient_id}")
-def get_patient(patient_id: int = None):
+def get_condition(patient_id: int = None):
 	with open('databases/conditions.json', 'r') as file:
 		file_data = json.load(file)['conditions']
 
