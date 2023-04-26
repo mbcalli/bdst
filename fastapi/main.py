@@ -16,6 +16,9 @@ with open('dictfier_queries/observation_dict_query.json', 'r') as file:
         
 with open('dictfier_queries/medication_dict_query.json', 'r') as file:
         medication_dict_query = json.load(file)
+        
+with open('dictfier_queries/encounter_dict_query.json', 'r') as file:
+        encounter_dict_query = json.load(file)
 
 with open('keys.json', 'r') as file:
 	API_KEY = json.load(file)['API_KEY']
@@ -44,6 +47,79 @@ class Person(BaseModel):
 @app.get("/")
 def read_root():
 	return "This is an API created for BDSI 8020."
+
+################################################################################
+# ENCOUNTERS
+################################################################################
+
+# POST to create a condition using the Encounter class from fhir.py
+# writes to a json file
+
+
+@app.post("/create/encounter/patient/{patient_id}")
+def create_encounter(patient_id: int, payload: dict = Body(...)):
+	with open('databases/encounters.json', 'r+') as file:
+		file_data = json.load(file)
+
+		encounter = Encounter(**payload)
+		encounter.subject = patient_id
+
+		# Get ICD10 code from diagnosis
+		diagnosis = encounter.diagnosis.code.text
+		ICD10_code = get_ICD10_code_from_diagnosis(diagnosis)
+		encounter.diagnosis.code.coding = ICD10_code
+
+		d = dictfier.dictfy(encounter, encounter_dict_query)
+		
+		file_data['encounters'].append(d)
+		file.seek(0)
+		json.dump(file_data, file, indent=4, default=str)
+
+# @app.put("/update/medication/{medication_id}/patient/{patient_id}")
+# def update_medication(medication_id: int, patient_id: int, payload: dict = Body(...)):
+# 	with open('databases/medications.json', 'r+') as file:
+# 		file_data = json.load(file)
+
+# 		file_data = {'medications': [x for x in file_data['medications'] if x['identifier']['value'] != medication_id]}
+
+# 		medication = Medication(**payload)
+# 		medication.subject = patient_id
+
+# 		medication_string = medication.code.text
+# 		rxnorm_code = get_RXNORM_code_from_medication(medication_string)
+# 		medication.code.coding = rxnorm_code
+
+
+# 		d = dictfier.dictfy(medication, medication_dict_query)
+		
+# 		file_data['medications'].append(d)
+# 		file.seek(0)
+# 		json.dump(file_data, file, indent=4, default=str)
+
+@app.get("/get/encounter/{encounter_id}")
+def get_encounter(encounter_id: int = None):
+    with open('databases/encounters.json', 'r') as file:
+        encounter_data = json.load(file)['encounters']
+        encounter_data = [x for x in encounter_data if x['identifier']['value'] == encounter_id]
+    
+    with open('databases/medications.json', 'r') as file:
+        medication_data = json.load(file)['medications']
+        medication_data = [x for x in medication_data if x['encounter'] == encounter_id]
+        
+    with open('databases/observations.json', 'r') as file:
+        observation_data = json.load(file)['observations']
+        observation_data = [x for x in observation_data if x['encounter'] == encounter_id]
+        
+    return {
+		'encounter': encounter_data,
+		'medications': medication_data,
+		'observations': observation_data
+	}
+        
+     
+     
+
+
 
 ################################################################################
 # MEDICATIONS

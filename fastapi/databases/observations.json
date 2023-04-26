@@ -71,6 +71,78 @@
             "hasMember": null,
             "derivedFrom": null,
             "component": null
+        },
+        {
+            "identifier": {
+                "use": "usual",
+                "system": null,
+                "value": 123,
+                "period": null,
+                "assigner": null
+            },
+            "basedOn": null,
+            "partOf": null,
+            "status": null,
+            "category": {
+                "coding": null,
+                "text": null
+            },
+            "code": {
+                "coding": "94123-7",
+                "text": "Intravascular end diastolic:Pres:Pt:Pulmonary artery:Qn:Cardiac catheterization"
+            },
+            "subject": 456,
+            "focus": null,
+            "encounter": 123,
+            "effectiveDateTime": null,
+            "effectivePeriod": null,
+            "effectiveTiming": null,
+            "effectiveInstant": null,
+            "issued": null,
+            "performer": null,
+            "valueQuantity": {
+                "value": 120,
+                "comparator": null,
+                "unit": "mmHg",
+                "system": null,
+                "code": null
+            },
+            "valueCodeableConcept": {
+                "coding": null,
+                "text": null
+            },
+            "valueString": null,
+            "valueBoolean": null,
+            "valueInteger": null,
+            "valueRange": null,
+            "valueRatio": null,
+            "valueSampledData": null,
+            "valueTime": null,
+            "valueDateTime": null,
+            "valuePeriod": null,
+            "dataAbsentReason": {
+                "coding": null,
+                "text": null
+            },
+            "interpretation": {
+                "coding": null,
+                "text": null
+            },
+            "note": null,
+            "bodySite": {
+                "coding": null,
+                "text": null
+            },
+            "method": {
+                "coding": null,
+                "text": null
+            },
+            "specimen": null,
+            "device": null,
+            "referenceRange": null,
+            "hasMember": null,
+            "derivedFrom": null,
+            "component": null
         }
     ]
 }

@@ -147,6 +147,80 @@
                 "text": null
             },
             "eventHistory": null
+        },
+        {
+            "resourceType": null,
+            "identifier": {
+                "use": "usual",
+                "system": null,
+                "value": 123,
+                "period": null,
+                "assigner": null
+            },
+            "basedOnpriorPrescription": null,
+            "groupIdentifier": {
+                "use": "usual",
+                "system": null,
+                "value": 123,
+                "period": null,
+                "assigner": null
+            },
+            "status": null,
+            "statusReason": {
+                "coding": null,
+                "text": null
+            },
+            "statusChanged": null,
+            "intent": null,
+            "category": {
+                "coding": null,
+                "text": null
+            },
+            "priority": null,
+            "doNotPerform": null,
+            "medication": {
+                "coding": "153008",
+                "text": "Advil+200+mg+Tab"
+            },
+            "subject": 456,
+            "informationSource": null,
+            "encounter": 123,
+            "supportingInformation": null,
+            "authoredOn": null,
+            "requester": null,
+            "reported": null,
+            "performerType": {
+                "coding": null,
+                "text": null
+            },
+            "performer": null,
+            "device": {
+                "coding": null,
+                "text": null
+            },
+            "recorder": null,
+            "reason": {
+                "coding": null,
+                "text": null
+            },
+            "courseOfTherapyType": {
+                "coding": null,
+                "text": null
+            },
+            "insurance": null,
+            "note": null,
+            "renderedDosageInstruction": null,
+            "effectiveDosePeriod": null,
+            "dosageInstruction": null,
+            "dispenseRequest": {
+                "coding": null,
+                "text": null
+            },
+            "substitution": {
+                "coding": null,
+                "text": null
+            },
+            "eventHistory": null
         }
     ]
 }

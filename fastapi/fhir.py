@@ -263,3 +263,29 @@ class Medication:
         self.substitution = CodeableConcept(**substitution)
         self.eventHistory = eventHistory    
     
+class Encounter:
+    
+    def __init__(self, identifier = {}, status = None, _class = {}, priority = {}, type = {}, serviceType = {}, subject = None, subjectStatus = {}, episodeOfCare = None, basedOn = None, careTeam = None, partOf = None, serviceProvider = None, virtualService = None, actualPeriod = None, plannedStartDate = None, plannedEndDate = None, length = None, diagnosis = {}, account = None, dietPreference = None, specialArrangement = None, specialCourtesy = None):
+        self.identifier = Identifier(**identifier)
+        self.status = status
+        self._class = CodeableConcept(**_class)
+        self.priority = CodeableConcept(**priority)
+        self.type = CodeableConcept(**type)
+        self.serviceType = CodeableConcept(**serviceType)
+        self.subject = subject
+        self.subjectStatus = CodeableConcept(**subjectStatus)
+        self.episodeOfCare = episodeOfCare
+        self.basedOn = basedOn
+        self.careTeam = careTeam
+        self.partOf = partOf
+        self.serviceProvider = serviceProvider
+        self.virtualService = virtualService
+        self.actualPeriod = actualPeriod
+        self.plannedStartDate = plannedStartDate
+        self.plannedEndDate = plannedEndDate
+        self.length = length
+        self.diagnosis = Condition(**diagnosis)
+        self.account = account
+        self.dietPreference = dietPreference
+        self.specialArrangement = specialArrangement
+        self.specialCourtesy = specialCourtesy

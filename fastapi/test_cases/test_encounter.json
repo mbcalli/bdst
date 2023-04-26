@@ -1,0 +1,92 @@
+{
+	"identifier": {
+		"use": null,
+		"system": null,
+		"value": 867,
+		"period": null,
+		"assigner": null
+	},
+	"_class": {
+		"coding": null,
+		"text": null
+	},
+	"priority": {
+		"coding": null,
+		"text": null
+	},
+	"type": {
+		"coding": null,
+		"text": null
+	},
+	"serviceType": {
+		"coding": null,
+		"text": null
+	},
+	"subjectStatus": {
+		"coding": null,
+		"text": null
+	},
+	"diagnosis": {
+		"identifier": {
+			"use": null,
+			"system": null,
+			"value": 123,
+			"period": null,
+			"assigner": null
+		},
+		"clinicalStatus": {
+			"coding": null,
+			"text": null
+		},
+		"verificationStatus": {
+			"coding": null,
+			"text": null
+		},
+		"category": {
+			"coding": null,
+			"text": null
+		},
+		"severity": {
+			"coding": null,
+			"text": null
+		},
+		"code": {
+			"coding": null,
+			"text": "Influenza due to other identified influenza virus with the same other identified influenza virus pneumonia"
+		},
+		"bodySite": {
+			"coding": null,
+			"text": null
+		},
+		"onsetDateTime": null,
+		"onsetAge": null,
+		"onsetPeriod": null,
+		"onsetRange": null,
+		"onsetString": null,
+		"abatementDateTime": null,
+		"abatementAge": null,
+		"abatementBoolean": null,
+		"abatementPeriod": null,
+		"abatementRange": null,
+		"abatementString": null,
+		"recordedDate": null,
+		"recorder": null,
+		"asserter": null
+	},
+	"status": 456,
+	"subject": null,
+	"episodeOfCare": null,
+	"basedOn": null,
+	"careTeam": null,
+	"partOf": null,
+	"serviceProvider": null,
+	"virtualService": null,
+	"actualPeriod": null,
+	"plannedStartDate": null,
+	"plannedEndDate": null,
+	"length": null,
+	"account": null,
+	"dietPreference": null,
+	"specialArrangement": null,
+	"specialCourtesy": null
+}
